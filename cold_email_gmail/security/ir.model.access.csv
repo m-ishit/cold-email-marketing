@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cold_mailbox_user,cold.mailbox.user,model_cold_mailbox,group_cold_email_user,1,1,1,0
+access_cold_mailbox_manager,cold.mailbox.manager,model_cold_mailbox,group_cold_email_manager,1,1,1,1
+access_cold_mail_user,cold.mail.user,model_cold_mail,group_cold_email_user,1,1,1,0
+access_cold_mail_manager,cold.mail.manager,model_cold_mail,group_cold_email_manager,1,1,1,1
+access_cold_mail_tag_user,cold.mail.tag.user,model_cold_mail_tag,group_cold_email_user,1,1,1,0
+access_cold_mail_tag_manager,cold.mail.tag.manager,model_cold_mail_tag,group_cold_email_manager,1,1,1,1
+access_cold_mail_template_user,cold.mail.template.user,model_cold_mail_template,group_cold_email_user,1,1,1,0
+access_cold_mail_template_manager,cold.mail.template.manager,model_cold_mail_template,group_cold_email_manager,1,1,1,1

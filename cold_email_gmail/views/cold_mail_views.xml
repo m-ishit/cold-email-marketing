@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cold_mail_view_list" model="ir.ui.view">
+        <field name="name">cold.mail.list</field>
+        <field name="model">cold.mail</field>
+        <field name="arch" type="xml">
+            <list multi_edit="1"
+                  decoration-danger="state == 'failed'"
+                  decoration-muted="state in ('cancelled', 'bounced')"
+                  decoration-success="state == 'sent'">
+                <field name="reference"/>
+                <field name="mailbox_id" optional="hide"/>
+                <field name="email_from" optional="hide"/>
+                <field name="email_to"/>
+                <field name="subject"/>
+                <field name="tag_ids" widget="many2many_tags" optional="show" options="{'color_field': 'color'}"/>
+                <field name="user_id" string="Responsible" widget="many2one_avatar_user" optional="show"/>
+                <field name="send_mode" optional="hide"/>
+                <field name="parent_id" optional="hide"/>
+                <field name="scheduled_at"/>
+                <field name="sent_at" optional="hide"/>
+                <field name="error_message" optional="show"/>
+                <field name="error_reason" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'sent'"
+                       decoration-danger="state == 'failed'"
+                       decoration-muted="state in ('cancelled', 'bounced')"/>
+                <button name="action_retry" type="object" string="Retry" icon="fa-refresh"
+                        invisible="state not in ('failed', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cold_mail_view_form" model="ir.ui.view">
+        <field name="name">cold.mail.form</field>
+        <field name="model">cold.mail</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_retry" type="object" string="Retry"
+                            invisible="state not in ('failed', 'cancelled')"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'scheduled'"/>
+                    <button name="action_reply" type="object" string="Reply"
+                            class="btn-primary" invisible="state != 'sent'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="scheduled,sent"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert" invisible="not error_message">
+                        <field name="error_message" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="reference" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="email_to"/>
+                            <field name="name" string="Name"/>
+                            <field name="company_name"/>
+                            <field name="scheduled_at"/>
+                        </group>
+                        <group>
+                            <field name="mailbox_id" string="From Email"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="send_mode"/>
+                            <field name="parent_id" invisible="send_mode != 'reply'"
+                                   required="send_mode == 'reply'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Body" name="body">
+                            <group>
+                                <group>
+                                    <field name="subject" required="1" options="{'dynamic_placeholder': true, 'dynamic_placeholder_model_reference_field': 'render_model'}"/>
+                                </group>
+                                <group>
+                                    <field name="template_id"/>
+                                </group>
+                            </group>
+                            <field name="body_html" widget="html_mail" required="1"
+                                   options="{'dynamic_placeholder': true, 'dynamic_placeholder_model_reference_field': 'render_model'}"
+                                   readonly="state != 'scheduled'"/>
+                            <div class="text-muted fst-italic" invisible="state != 'scheduled'">
+                                Tip: type / to insert the recipient's name or company.
+                            </div>
+                            <field name="render_model" invisible="1"/>
+                        </page>
+                        <page string="Replies" name="replies" invisible="not child_ids">
+                            <field name="child_ids" readonly="1">
+                                <list decoration-danger="state == 'failed'"
+                                      decoration-muted="state in ('cancelled', 'bounced')"
+                                      decoration-success="state == 'sent'">
+                                    <field name="reference"/>
+                                    <field name="subject"/>
+                                    <field name="scheduled_at"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Response" name="response" invisible="state == 'scheduled'">
+                            <group>
+                                <group string="Outcome">
+                                    <field name="sent_at" readonly="1"/>
+                                    <field name="retry_count" readonly="1"/>
+                                </group>
+                                <group string="Gmail Identifiers">
+                                    <field name="gmail_message_id" readonly="1"/>
+                                    <field name="gmail_thread_id" readonly="1"/>
+                                    <field name="rfc_message_id" readonly="1"/>
+                                </group>
+                            </group>
+                            <group invisible="not error_message">
+                                <group string="Failure">
+                                    <field name="error_status" readonly="1"/>
+                                    <field name="error_reason" readonly="1"/>
+                                    <field name="error_message" readonly="1" colspan="2"/>
+                                </group>
+                            </group>
+                            <group invisible="not gmail_raw_response">
+                                <separator string="Raw Response"/>
+                                <field name="gmail_raw_response" readonly="1" nolabel="1"
+                                       widget="code" options="{'mode': 'json'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="cold_mail_view_search" model="ir.ui.view">
+        <field name="name">cold.mail.search</field>
+        <field name="model">cold.mail</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference"/>
+                <field name="email_to"/>
+                <field name="email_from"/>
+                <field name="subject"/>
+                <field name="mailbox_id"/>
+                <field name="tag_ids"/>
+                <field name="user_id"/>
+                <filter name="filter_scheduled" string="Scheduled"
+                        domain="[('state', '=', 'scheduled')]"/>
+                <filter name="filter_sent" string="Sent" domain="[('state', '=', 'sent')]"/>
+                <filter name="filter_failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <filter name="filter_bounced" string="Bounced" domain="[('state', '=', 'bounced')]"/>
+                <separator/>
+                <filter name="filter_due" string="Due Now"
+                        domain="[('scheduled_at', '&lt;=', 'now'), ('state', '=', 'scheduled')]"/>
+                <separator/>
+                <filter name="filter_mine" string="My Emails" domain="[('user_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_mailbox" string="Mailbox" context="{'group_by': 'mailbox_id'}"/>
+                    <filter name="group_user" string="Responsible" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_error_reason" string="Failure Reason" context="{'group_by': 'error_reason'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="cold_mail_action" model="ir.actions.act_window">
+        <field name="name">Emails</field>
+        <field name="res_model">cold.mail</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Schedule your first email</p>
+            <p>
+                Pick a connected mailbox, write the message and choose when it goes out.
+                A cron sends everything due, respecting the mailbox's daily limit and
+                sending window.
+            </p>
+        </field>
+    </record>
+
+</odoo>

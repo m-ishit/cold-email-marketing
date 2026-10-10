@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_cold_email_root" name="Cold Email"
+              web_icon="cold_email_gmail,static/description/icon.png"
+              action="cold_mail_action"
+              sequence="95"
+              groups="cold_email_gmail.group_cold_email_user"/>
+
+    <menuitem id="menu_cold_mail" name="Emails"
+              parent="menu_cold_email_root" action="cold_mail_action" sequence="10"/>
+
+    <menuitem id="menu_cold_configuration" name="Configuration"
+              parent="menu_cold_email_root" sequence="90"/>
+
+    <menuitem id="menu_cold_mailbox" name="Mailboxes"
+              parent="menu_cold_configuration" action="cold_mailbox_action" sequence="10"/>
+
+    <menuitem id="menu_cold_mail_template" name="Email Templates"
+              parent="menu_cold_configuration" action="cold_mail_template_action" sequence="20"/>
+
+    <menuitem id="menu_cold_mail_tag" name="Tags"
+              parent="menu_cold_configuration" action="cold_mail_tag_action" sequence="30"/>
+
+</odoo>

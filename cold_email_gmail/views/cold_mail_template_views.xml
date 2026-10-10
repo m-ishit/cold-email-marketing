@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cold_mail_template_view_list" model="ir.ui.view">
+        <field name="name">cold.mail.template.list</field>
+        <field name="model">cold.mail.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="subject"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cold_mail_template_view_form" model="ir.ui.view">
+        <field name="name">cold.mail.template.form</field>
+        <field name="model">cold.mail.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Canada Drip 5 - Step 1"/></h1>
+                    </div>
+                    <group>
+                        <field name="subject" options="{'dynamic_placeholder': true}"
+                               placeholder='e.g. "Quick question, {{ object.name }}"'/>
+                        <field name="model" invisible="1"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <field name="body_html" widget="html_mail"
+                           options="{'dynamic_placeholder': true}"
+                           placeholder="Write your message here..."/>
+                    <div class="text-muted fst-italic">Tip: type / to insert a dynamic placeholder like the recipient's name or company.</div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cold_mail_template_action" model="ir.actions.act_window">
+        <field name="name">Email Templates</field>
+        <field name="res_model">cold.mail.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first template</p>
+            <p>
+                Save reusable subject/body content here. Picking a template on an email
+                prefills Subject and Body — you can still edit them afterwards.
+            </p>
+        </field>
+    </record>
+
+</odoo>

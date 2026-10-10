@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="seq_cold_mail" model="ir.sequence">
+        <field name="name">Cold Email</field>
+        <field name="code">cold.mail</field>
+        <field name="prefix">SQ</field>
+        <field name="padding">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

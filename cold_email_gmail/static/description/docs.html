@@ -1,0 +1,1023 @@
+<title>Cold Email for Gmail</title>
+<style>
+  /* ============================================================
+     Design plan
+     Color  — cool slate/ink neutrals (the blue-black of pen ink and
+              envelope security tint), one accent of oxidised copper
+              teal for structure and links, and two semantic hues held
+              in reserve strictly for traps and confirmations.
+              ink #10171E · slate #5A6B7A · paper #EEF1F3
+              copper #0E6E70 · crimson #A03A32 · moss #2C6B4F
+     Type   — monospace as the DISPLAY face, because email headers are
+              monospace and this is a document about headers; a serif
+              for running prose so argument and protocol never blur;
+              mono small-caps for labels.
+     Layout — a sticky index rail that separates the ordered setup path
+              from the unordered reference, against a 68ch measure. The
+              threading diagram is the one place the page raises its
+              voice: an actual rendered conversation with its headers.
+     ============================================================ */
+
+  :root {
+    --ink:        #10171E;
+    --ink-soft:   #2B3944;
+    --slate:      #5A6B7A;
+    --slate-dim:  #8695A2;
+    --paper:      #EEF1F3;
+    --surface:    #F7F9FA;
+    --sunken:     #E4E9EC;
+    --rule:       #CBD5DB;
+    --rule-soft:  #DCE3E7;
+    --copper:     #0E6E70;
+    --copper-lift:#0A8C8F;
+    --crimson:    #A03A32;
+    --crimson-bg: #F6E7E5;
+    --moss:       #2C6B4F;
+    --moss-bg:    #E3EFE8;
+    --amber:      #8A6410;
+    --amber-bg:   #F6EEDC;
+
+    --display: ui-monospace, "SF Mono", "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+    --body: ui-serif, Charter, "Iowan Old Style", Georgia, Cambria, serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+
+    --measure: 68ch;
+    --step--1: 0.813rem;
+    --step-0:  1.0625rem;
+    --step-1:  1.25rem;
+    --step-2:  1.5rem;
+    --step-3:  1.95rem;
+    --step-4:  2.6rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink:        #E7EDF1;
+      --ink-soft:   #C3CFD8;
+      --slate:      #93A3AF;
+      --slate-dim:  #6B7C89;
+      --paper:      #0D1319;
+      --surface:    #131B22;
+      --sunken:     #1A242C;
+      --rule:       #2C3A45;
+      --rule-soft:  #212C35;
+      --copper:     #4FB3B2;
+      --copper-lift:#6FCFCB;
+      --crimson:    #E08078;
+      --crimson-bg: #2B1A19;
+      --moss:       #6FBE93;
+      --moss-bg:    #14251D;
+      --amber:      #D6A950;
+      --amber-bg:   #26200F;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink:        #E7EDF1;
+    --ink-soft:   #C3CFD8;
+    --slate:      #93A3AF;
+    --slate-dim:  #6B7C89;
+    --paper:      #0D1319;
+    --surface:    #131B22;
+    --sunken:     #1A242C;
+    --rule:       #2C3A45;
+    --rule-soft:  #212C35;
+    --copper:     #4FB3B2;
+    --copper-lift:#6FCFCB;
+    --crimson:    #E08078;
+    --crimson-bg: #2B1A19;
+    --moss:       #6FBE93;
+    --moss-bg:    #14251D;
+    --amber:      #D6A950;
+    --amber-bg:   #26200F;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: var(--step-0);
+    line-height: 1.65;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 3.5rem;
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+    align-items: start;
+  }
+
+  /* ---------- index rail ---------- */
+  .rail {
+    position: sticky;
+    top: 0;
+    padding: 3.5rem 0 2rem;
+    max-height: 100vh;
+    overflow-y: auto;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+  .rail-group { margin-bottom: 1.75rem; }
+  .rail-title {
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    font-size: 0.688rem;
+    color: var(--slate-dim);
+    margin: 0 0 0.7rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .rail ol, .rail ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .rail a {
+    color: var(--slate);
+    text-decoration: none;
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.12rem 0;
+    border-radius: 2px;
+  }
+  .rail a:hover { color: var(--copper); }
+  .rail a:focus-visible { outline: 2px solid var(--copper); outline-offset: 3px; }
+  .rail .num { color: var(--slate-dim); font-variant-numeric: tabular-nums; min-width: 1.1rem; }
+  .rail .dash { color: var(--rule); }
+
+  /* ---------- masthead ---------- */
+  main { padding-top: 3.5rem; min-width: 0; }
+
+  .masthead { border-bottom: 2px solid var(--ink); padding-bottom: 2rem; margin-bottom: 3rem; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.688rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--copper);
+    margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: var(--step-4);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    margin: 0 0 1rem;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin: 0 0 1.75rem;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 2.25rem;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+  .fact { display: flex; gap: 0.55rem; padding: 0.2rem 0; }
+  .fact dt { color: var(--slate-dim); margin: 0; }
+  .fact dd { margin: 0; color: var(--ink); }
+
+  /* ---------- sections ---------- */
+  section { margin-bottom: 4rem; scroll-margin-top: 2rem; max-width: var(--measure); }
+  section.wide { max-width: none; }
+
+  h2 {
+    font-family: var(--display);
+    font-size: var(--step-2);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 1.25rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    gap: 0.9rem;
+    align-items: baseline;
+    text-wrap: balance;
+  }
+  h2 .sec-num {
+    font-size: 0.75rem;
+    color: var(--copper);
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+  }
+  h3 {
+    font-family: var(--display);
+    font-size: var(--step-0);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin: 2.25rem 0 0.8rem;
+    color: var(--ink);
+  }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--copper); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; border-radius: 2px; }
+  strong { font-weight: 600; color: var(--ink); }
+  ul.prose, ol.prose { margin: 0 0 1.2rem; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  ol.prose { padding-left: 1.5rem; }
+  ul.prose li::marker { color: var(--copper); }
+  ol.prose li::marker { color: var(--slate-dim); font-family: var(--mono); font-size: 0.85em; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.855em;
+    background: var(--sunken);
+    padding: 0.1em 0.36em;
+    border-radius: 3px;
+    color: var(--ink-soft);
+  }
+
+  pre {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    line-height: 1.6;
+    background: var(--surface);
+    border: 1px solid var(--rule-soft);
+    border-left: 2px solid var(--copper);
+    padding: 1.1rem 1.25rem;
+    margin: 0 0 1.3rem;
+    overflow-x: auto;
+    color: var(--ink-soft);
+  }
+  pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+  .cmt { color: var(--slate-dim); }
+  .hl { color: var(--copper); }
+  .bad { color: var(--crimson); }
+
+  /* ---------- tables ---------- */
+  .table-wrap { overflow-x: auto; margin: 0 0 1.4rem; border: 1px solid var(--rule-soft); }
+  table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
+  th, td { text-align: left; padding: 0.62rem 0.9rem; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.688rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--slate-dim);
+    background: var(--surface);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code { font-size: 0.83em; white-space: nowrap; }
+  .num-col { font-variant-numeric: tabular-nums; }
+
+  /* ---------- callouts ---------- */
+  .note {
+    border: 1px solid var(--rule);
+    border-left-width: 3px;
+    padding: 1rem 1.15rem;
+    margin: 0 0 1.4rem;
+    font-size: 0.97rem;
+  }
+  .note p:last-child { margin-bottom: 0; }
+  .note .tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    display: block;
+    margin-bottom: 0.45rem;
+  }
+  .note.trap  { border-left-color: var(--crimson); background: var(--crimson-bg); }
+  .note.trap .tag { color: var(--crimson); }
+  .note.warn  { border-left-color: var(--amber); background: var(--amber-bg); }
+  .note.warn .tag { color: var(--amber); }
+  .note.good  { border-left-color: var(--moss); background: var(--moss-bg); }
+  .note.good .tag { color: var(--moss); }
+
+  /* ---------- the thread diagram ---------- */
+  .thread {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0 0 1.5rem;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+  .msg {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0 1rem;
+  }
+  .msg-spine { position: relative; display: flex; flex-direction: column; align-items: center; }
+  .msg-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--copper);
+    margin-top: 1.15rem;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .msg-dot.filled { background: var(--copper); }
+  .msg-line { flex: 1; width: 2px; background: var(--rule); }
+  .msg:last-child .msg-line { background: transparent; }
+  .msg-line.broken { background: repeating-linear-gradient(var(--rule) 0 4px, transparent 4px 9px); }
+
+  .msg-body {
+    border: 1px solid var(--rule-soft);
+    background: var(--surface);
+    padding: 0.85rem 1rem 0.95rem;
+    margin-bottom: 0.9rem;
+    min-width: 0;
+    overflow-x: auto;
+  }
+  .msg-step {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--slate-dim);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .mode { color: var(--copper); }
+  .mode.reset { color: var(--amber); }
+  .hdr { display: block; white-space: pre; color: var(--slate); }
+  .hdr b { color: var(--ink); font-weight: 500; }
+  .hdr .key { color: var(--slate-dim); }
+  .msg-note {
+    margin-top: 0.65rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed var(--rule);
+    color: var(--slate);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    white-space: normal;
+  }
+  .msg-note b { color: var(--crimson); font-weight: 500; }
+
+  /* ---------- flow ---------- */
+  .flow {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    line-height: 1.75;
+    background: var(--surface);
+    border: 1px solid var(--rule-soft);
+    padding: 1.2rem 1.35rem;
+    margin: 0 0 1.4rem;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- state pills ---------- */
+  .states { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1.3rem; }
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    padding: 0.22rem 0.6rem;
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    color: var(--slate);
+    white-space: nowrap;
+  }
+  .pill.live  { border-color: var(--copper); color: var(--copper); }
+  .pill.stop  { border-color: var(--crimson); color: var(--crimson); }
+  .pill.done  { border-color: var(--moss); color: var(--moss); }
+
+  footer {
+    max-width: var(--measure);
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    color: var(--slate-dim);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 62rem) {
+    .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 1.4rem 5rem; }
+    .rail {
+      position: static; max-height: none; padding: 2.5rem 0 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.5rem;
+    }
+    .rail-group { margin-bottom: 0; }
+    main { padding-top: 2.5rem; }
+    h1 { font-size: var(--step-3); }
+    .msg { grid-template-columns: 1.6rem minmax(0, 1fr); gap: 0 0.7rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="shell">
+
+  <nav class="rail" aria-label="Contents">
+    <div class="rail-group">
+      <p class="rail-title">Setup path</p>
+      <ol>
+        <li><a href="#google"><span class="num">01</span> Google Cloud</a></li>
+        <li><a href="#install"><span class="num">02</span> Install</a></li>
+        <li><a href="#mailbox"><span class="num">03</span> Connect a mailbox</a></li>
+        <li><a href="#contacts"><span class="num">04</span> Build a list</a></li>
+        <li><a href="#campaign"><span class="num">05</span> Run a campaign</a></li>
+      </ol>
+    </div>
+    <div class="rail-group">
+      <p class="rail-title">Reference</p>
+      <ul>
+        <li><a href="#threading"><span class="dash">—</span> Threading</a></li>
+        <li><a href="#model"><span class="dash">—</span> Data model</a></li>
+        <li><a href="#crons"><span class="dash">—</span> Crons &amp; queue</a></li>
+        <li><a href="#suppression"><span class="dash">—</span> Replies &amp; suppression</a></li>
+        <li><a href="#errors"><span class="dash">—</span> Error handling</a></li>
+        <li><a href="#security"><span class="dash">—</span> Security</a></li>
+        <li><a href="#compliance"><span class="dash">—</span> Compliance</a></li>
+        <li><a href="#trouble"><span class="dash">—</span> Troubleshooting</a></li>
+        <li><a href="#tests"><span class="dash">—</span> Tests &amp; layout</a></li>
+        <li><a href="#limits"><span class="dash">—</span> Limitations</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <header class="masthead">
+      <p class="eyebrow">Odoo 19 Community · Module documentation</p>
+      <h1>Cold Email for Gmail</h1>
+      <p class="standfirst">
+        Multi-step cold outreach that talks to Gmail entirely over its REST API —
+        no SMTP, no password, no app-specific password.
+      </p>
+      <dl class="facts">
+        <div class="fact"><dt>module</dt><dd>cold_email_gmail</dd></div>
+        <div class="fact"><dt>depends</dt><dd>mail</dd></div>
+        <div class="fact"><dt>python</dt><dd>requests</dd></div>
+        <div class="fact"><dt>license</dt><dd>LGPL-3</dd></div>
+        <div class="fact"><dt>tests</dt><dd>59 passing</dd></div>
+      </dl>
+    </header>
+
+    <section id="why">
+      <h2><span class="sec-num">00</span> What it is</h2>
+      <p>
+        Every Gmail operation is an HTTPS call to <code>gmail.googleapis.com</code>.
+        The module never touches <code>ir.mail_server</code>, <code>mail.mail</code> or
+        <code>fetchmail.server</code>, and it does not depend on Odoo's
+        <code>google_gmail</code> addon.
+      </p>
+      <p>
+        That addon is worth a word, because it looks like the obvious thing to build on.
+        It uses OAuth only to mint a bearer token, then hands that token to <strong>SMTP</strong>
+        as an XOAUTH2 password:
+      </p>
+      <pre><code><span class="cmt"># addons/google_gmail/models/ir_mail_server.py</span>
+connection.docmd('AUTH', f'XOAUTH2 {oauth_param}')</code></pre>
+      <p>
+        Its default scope is <code>https://mail.google.com/</code> — the SMTP/IMAP scope, not
+        an API scope. Building on it would also mean inheriting a hardcoded redirect URI, an
+        admin-only connect button that breaks per-user mailboxes, and Enterprise-only IAP
+        branches. So this module brings its own OAuth flow, controller, token store and API client.
+      </p>
+      <p>
+        It does reuse generic core <code>mail</code> infrastructure — <code>mail.blacklist</code>,
+        the <code>mail.thread.blacklist</code> mixin, <code>mail.render.mixin</code> — because
+        none of that has anything to do with the SMTP connector.
+      </p>
+    </section>
+
+    <section id="google">
+      <h2><span class="sec-num">01</span> Google Cloud setup</h2>
+      <p>Nothing works until an OAuth client exists. Do this before installing.</p>
+      <ol class="prose">
+        <li>Create a project at <a href="https://console.cloud.google.com">console.cloud.google.com</a>.</li>
+        <li><strong>APIs &amp; Services → Library →</strong> enable the <strong>Gmail API</strong>.</li>
+        <li><strong>OAuth consent screen.</strong> Choose <em>Internal</em> if every sender is on
+            your Google Workspace domain — no review needed and refresh tokens are long-lived.
+            Otherwise <em>External</em>, and add each sender under <strong>Test users</strong>.</li>
+        <li><strong>Credentials → Create credentials → OAuth client ID → Web application.</strong></li>
+        <li>Add the authorised redirect URI, exactly:
+          <pre style="margin-top:.6rem"><code>https://your-odoo-domain.com/cold_email/oauth/callback</code></pre>
+          The Settings page prints the exact string for your instance — copy it from there rather
+          than typing it.</li>
+        <li>Paste the Client ID and Client Secret into <strong>Settings → Cold Email</strong>.</li>
+      </ol>
+
+      <div class="note warn">
+        <span class="tag">Testing mode expires tokens after 7 days</span>
+        <p>
+          While the consent screen sits in <em>Testing</em>, Google expires refresh tokens weekly.
+          The mailbox flips to <em>Authorisation Expired</em> and <strong>Reconnect</strong> fixes it.
+          This is Google's behaviour, not a defect — only an <em>Internal</em> app or a published,
+          verified app gets long-lived tokens.
+        </p>
+      </div>
+
+      <p>The module requests two scopes and no more:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Scope</th><th>Tier</th><th>Needed for</th></tr></thead>
+          <tbody>
+            <tr><td><code>gmail.send</code></td><td>Sensitive</td><td>Sending — <code>users.messages.send</code></td></tr>
+            <tr><td><code>gmail.readonly</code></td><td>Restricted</td><td>Reading back the real Message-ID, reply detection, capturing the connected address</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Using <code>users.getProfile</code> instead of Google's <code>oauth2/v2/userinfo</code>
+        means no <code>userinfo.email</code> scope is needed — one fewer line on the consent screen.
+      </p>
+    </section>
+
+    <section id="install">
+      <h2><span class="sec-num">02</span> Install</h2>
+      <pre><code>./odoo-bin -c &lt;conf&gt; -d &lt;db&gt; -i cold_email_gmail</code></pre>
+      <p>Then grant a role under <strong>Settings → Users → Cold Email</strong>.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Group</th><th>Can do</th></tr></thead>
+          <tbody>
+            <tr><td><strong>User</strong></td><td>Connect their own mailbox, run their own campaigns</td></tr>
+            <tr><td><strong>Manager</strong></td><td>All of the above, plus every mailbox and campaign in the company</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="mailbox">
+      <h2><span class="sec-num">03</span> Connect a mailbox</h2>
+      <p>
+        <strong>Cold Email → Configuration → Mailboxes → New.</strong> Name it, save, then press
+        <strong>Connect Gmail</strong>.
+      </p>
+      <div class="flow">Connect Gmail
+      │  auth URL built under sudo(): scopes, PKCE challenge,
+      │  state = { mailbox id + HMAC signature }
+      ▼
+accounts.google.com  — user grants gmail.send + gmail.readonly
+      │  ?code=…&amp;state=…
+      ▼
+/cold_email/oauth/callback   verify state → consteq(HMAC) → <span class="bad">403 if forged</span>
+      ▼
+POST oauth2.googleapis.com/token    authorization_code + PKCE verifier
+      ▼
+GET  gmail/v1/users/me/profile      <span class="hl">← the address that ACTUALLY authenticated</span>
+      ▼
+state = connected</div>
+      <p>
+        The <strong>Gmail Address</strong> field is filled in by Google, not by whatever was typed
+        into Odoo. Press <strong>Send Test Email</strong> to prove the whole chain in one click.
+      </p>
+
+      <h3>Sending policy</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th class="num-col">Default</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>daily_limit</code></td><td class="num-col">50</td><td>Maximum emails per day from this mailbox</td></tr>
+            <tr><td><code>min_delay_seconds</code></td><td class="num-col">60</td><td>Minimum pause between two sends</td></tr>
+            <tr><td><code>window_start</code> / <code>window_end</code></td><td class="num-col">9.0 / 18.0</td><td>Daily sending window, in the mailbox timezone</td></tr>
+            <tr><td><code>tz</code></td><td class="num-col">user's</td><td>Timezone the window and the daily reset use</td></tr>
+            <tr><td><code>reply_sync_enabled</code></td><td class="num-col">on</td><td>Poll the inbox to detect replies</td></tr>
+            <tr><td><code>debug_logging</code></td><td class="num-col">off</td><td>Log every API call — credentials are never logged</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Keep <code>daily_limit</code> well under Gmail's own ceiling — roughly 500/day for a
+        personal account, 2,000/day for Workspace. Those limits are separate from API quota.
+      </p>
+      <div class="states">
+        <span class="pill">draft</span>
+        <span class="pill live">connected</span>
+        <span class="pill stop">expired</span>
+        <span class="pill stop">error</span>
+        <span class="pill">disconnected</span>
+      </div>
+    </section>
+
+    <section id="contacts">
+      <h2><span class="sec-num">04</span> Build a list</h2>
+      <p>
+        <strong>Cold Email → Contacts.</strong> Import with the standard Odoo CSV importer —
+        nothing custom. Prospects stay in <code>cold.contact</code> rather than
+        <code>res.partner</code> on purpose: cold lists are bulk-imported, unverified and often
+        discarded, and they should not silently become part of the company's real contact database.
+        <strong>Create Contact</strong> promotes a warm reply into a real partner.
+      </p>
+      <p>
+        Inheriting <code>mail.thread.blacklist</code> brings <code>email_normalized</code>, a
+        searchable <code>is_blacklisted</code>, the <code>message_bounce</code> counter and chatter
+        at no cost — that is the entire suppression layer.
+      </p>
+      <h3>Merge fields</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Placeholder</th><th>Field</th></tr></thead>
+          <tbody>
+            <tr><td><code>{{ object.name }}</code></td><td>Full name</td></tr>
+            <tr><td><code>{{ object.company_name }}</code></td><td>Company</td></tr>
+            <tr><td><code>{{ object.job_title }}</code></td><td>Job title</td></tr>
+            <tr><td><code>{{ object.website }}</code></td><td>Website</td></tr>
+            <tr><td><code>{{ object.custom_1 }}</code> … <code>custom_3</code></td><td>Free-form personalisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Rendering uses <code>mail.render.mixin</code> with the <code>inline_template</code> engine.
+        Supply a fallback with <code>{{ object.custom_1 ||| your stack }}</code> so an empty field
+        never leaves a hole in the sentence.
+      </p>
+    </section>
+
+    <section id="campaign">
+      <h2><span class="sec-num">05</span> Run a campaign</h2>
+      <p>
+        <strong>Cold Email → Campaigns → New.</strong> Pick a connected mailbox, write the steps,
+        add contacts, press <strong>Start</strong>.
+      </p>
+      <div class="flow">Q3 SaaS Outreach                      mailbox: sales@acme.com
+├── step 1   +0d   <span class="hl">new_thread</span>   "Quick question about {{ object.company_name }}"
+├── step 2   +3d   <span class="hl">reply</span>        "Following up"
+├── step 3   +4d   <span class="hl">reply</span>        "Last note"
+└── step 4   +7d   <span class="hl">new_thread</span>   "Different angle"</div>
+      <p>
+        Delays count <strong>from the previous step</strong>, not from day zero, so reordering or
+        inserting a step does not silently shift everything after it.
+      </p>
+      <div class="states">
+        <span class="pill">draft</span>
+        <span class="pill live">running</span>
+        <span class="pill">paused</span>
+        <span class="pill done">done</span>
+        <span class="pill stop">cancelled</span>
+      </div>
+      <div class="note good">
+        <span class="tag">Pause loses nothing</span>
+        <p>
+          Pausing does not delete queued rows. The cron skips campaigns that are not running, so
+          resuming costs nothing and re-enqueues nothing. Adding contacts to an already-running
+          campaign starts them immediately; blacklisted and already-enrolled contacts are skipped,
+          and the wizard says how many and why before you commit.
+        </p>
+      </div>
+    </section>
+
+    <section id="threading" class="wide">
+      <h2><span class="sec-num">—</span> Threading: new conversation vs. reply</h2>
+      <p style="max-width:var(--measure)">
+        Each step either opens a new conversation or continues the existing one. This is the part
+        of the Gmail API with a trap in it — two, in fact.
+      </p>
+
+      <div class="thread" style="max-width:56rem">
+        <div class="msg">
+          <div class="msg-spine"><span class="msg-dot filled"></span><span class="msg-line"></span></div>
+          <div class="msg-body">
+            <div class="msg-step"><span>Step 1 · day 0</span><span class="mode">new_thread</span></div>
+            <span class="hdr"><span class="key">Subject:</span> <b>Quick question about Acme</b>
+<span class="key">To:</span>      jane@acme.com
+<span class="key">         </span><span class="cmt">(no In-Reply-To, no References)</span>
+
+<span class="key">POST</span> /messages/send  { raw }              <span class="cmt">← no threadId</span></span>
+            <p class="msg-note">
+              Gmail creates thread <code>T1</code> — and <b>rewrites the Message-ID we generated</b>.
+              The module reads the real one back with
+              <code>GET /messages/{id}?format=metadata&amp;metadataHeaders=Message-Id</code> and stores
+              <code>gmail_thread_id = T1</code>, <code>last_rfc_message_id = &lt;abc@mail.gmail.com&gt;</code>.
+            </p>
+          </div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-spine"><span class="msg-dot filled"></span><span class="msg-line"></span></div>
+          <div class="msg-body">
+            <div class="msg-step"><span>Step 2 · day 3</span><span class="mode">reply</span></div>
+            <span class="hdr"><span class="key">Subject:</span> <b>Re: Quick question about Acme</b>   <span class="cmt">← prefix required</span>
+<span class="key">In-Reply-To:</span> &lt;abc@mail.gmail.com&gt;
+<span class="key">References:</span>  &lt;abc@mail.gmail.com&gt;
+
+<span class="key">POST</span> /messages/send  { raw, <span class="hl">threadId: "T1"</span> }</span>
+            <p class="msg-note">Lands in the same conversation. The chain advances to this message's ID.</p>
+          </div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-spine"><span class="msg-dot"></span><span class="msg-line broken"></span></div>
+          <div class="msg-body">
+            <div class="msg-step"><span>Step 4 · day 14</span><span class="mode reset">new_thread</span></div>
+            <span class="hdr"><span class="key">Subject:</span> <b>Different angle</b>
+<span class="key">         </span><span class="cmt">(chain deliberately reset)</span></span>
+            <p class="msg-note">
+              A mid-sequence <code>new_thread</code> step starts a fresh conversation and becomes
+              the new anchor for any later <code>reply</code> steps.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width:var(--measure)">
+        <div class="note trap">
+          <span class="tag">Trap 1 · Gmail overwrites Message-ID on send</span>
+          <p>
+            Whatever you put in the MIME is <em>not</em> what the recipient's client sees. The ID
+            needed for the next follow-up's <code>In-Reply-To</code> can only be obtained by reading
+            the message back with <code>messages.get</code>. That single requirement is why
+            <code>gmail.readonly</code> is in the scope list — it is not only for reply detection.
+          </p>
+        </div>
+        <div class="note trap">
+          <span class="tag">Trap 2 · threadId alone does not thread</span>
+          <p>
+            Gmail attaches a message to a thread only when the <code>threadId</code>, the
+            <code>References</code>/<code>In-Reply-To</code> headers <em>and</em> the subject line
+            all agree. Set one without the others and it silently starts a new conversation. The
+            module always writes the three together, as a unit.
+          </p>
+        </div>
+        <p>
+          A <code>reply</code> step with no thread to reply into — the first step, or one whose
+          predecessor never went out — degrades to <code>new_thread</code> rather than mis-threading.
+        </p>
+      </div>
+    </section>
+
+    <section id="model">
+      <h2><span class="sec-num">—</span> Data model</h2>
+      <div class="flow">res.users ──1:N──&gt; cold.mailbox ──1:N──&gt; cold.campaign
+                        │                      │
+                        │                      ├──1:N──&gt; cold.sequence.step
+                        │                      │
+                        │                      └──1:N──&gt; cold.enrollment &lt;──N:1── cold.contact
+                        │                                     │
+                        └─────────────────────────────────────┴──1:N──&gt; cold.mail</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><code>cold.mailbox</code></td><td>One connected Gmail account. Owns the OAuth tokens and the sending policy.</td></tr>
+            <tr><td><code>cold.contact</code></td><td>A prospect on the cold list, kept out of <code>res.partner</code> on purpose.</td></tr>
+            <tr><td><code>cold.campaign</code></td><td>A mailbox, an ordered sequence, and the enrolled contacts.</td></tr>
+            <tr><td><code>cold.sequence.step</code></td><td>One message: its copy, its delay, and how it threads.</td></tr>
+            <tr><td><code>cold.enrollment</code></td><td>One contact's run through one campaign. <strong>Holds the Gmail thread state.</strong></td></tr>
+            <tr><td><code>cold.mail</code></td><td>One outgoing email. <strong>This is also the queue.</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Two shapes are worth explaining. <code>cold.enrollment</code> exists because the same contact
+        can sit in several campaigns at once, each with its own Gmail conversation — the thread state
+        has to live somewhere per-pairing. And there is deliberately <strong>no queue model</strong>:
+        a <code>cold.mail</code> row in state <code>scheduled</code> with a future
+        <code>scheduled_at</code> <em>is</em> a queued job, so there is nothing to keep in sync.
+      </p>
+    </section>
+
+    <section id="crons">
+      <h2><span class="sec-num">—</span> Crons and the queue</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cron</th><th class="num-col">Every</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>_cron_send_queued</code></td><td class="num-col">5 min</td><td>Sends everything due, mailbox by mailbox</td></tr>
+            <tr><td><code>_cron_sync_replies</code></td><td class="num-col">15 min</td><td>Detects replies and bounces, stops those sequences</td></tr>
+            <tr><td><code>_cron_gc</code></td><td class="num-col">1 week</td><td>Drops sent/cancelled rows older than 12 months</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flow">for each connected mailbox:
+    ├─ outside its window ?     ──&gt; skip mailbox
+    ├─ daily quota spent ?      ──&gt; skip mailbox
+    └─ for each due cold.mail, oldest first:
+           ├─ blacklisted / campaign not running  ──&gt; cancelled
+           ├─ render copy, build MIME (+ unsubscribe link and header)
+           ├─ <span class="hl">POST /messages/send</span>   (threadId only when replying)
+           ├─ <span class="hl">GET  /messages/{id}</span>   → the real Message-ID
+           ├─ store ids, update the enrollment's thread state
+           └─ <span class="hl">CREATE the next step's cold.mail</span>   ← how sequences advance</div>
+      <p>
+        Follow-ups are queued <strong>lazily</strong> — the next email is created only after the
+        current one actually sends. Nothing is pre-scheduled days ahead, so a pause or a reply never
+        leaves stale rows behind. Each send is isolated in a <code>cr.savepoint()</code>, so one bad
+        row cannot roll back the batch.
+      </p>
+      <p>
+        Rate control lives entirely in the loop guard: the per-mailbox daily limit, the minimum delay
+        between two sends, and the window check in the mailbox's own timezone. A mailbox that is
+        pacing simply waits for the next cron beat rather than blocking the worker.
+      </p>
+    </section>
+
+    <section id="suppression">
+      <h2><span class="sec-num">—</span> Replies, bounces, unsubscribes</h2>
+      <p>Reply detection costs one API call per mailbox, not one per conversation:</p>
+      <div class="flow">GET /messages?q=-from:me newer_than:7d&amp;labelIds=INBOX
+  → collect threadIds
+  → match cold.enrollment.gmail_thread_id in <span class="hl">one query</span>
+  → sender is mailer-daemon@ / postmaster@ ?  <span class="bad">bounced</span> : <span class="hl">replied</span>
+  → cancel that enrollment's remaining scheduled emails</div>
+      <p>Two hard bounces add the address to <code>mail.blacklist</code> automatically.</p>
+
+      <h3>Unsubscribe</h3>
+      <p>
+        Every message carries a visible footer link <em>and</em> a <code>List-Unsubscribe</code>
+        header with <code>List-Unsubscribe-Post: List-Unsubscribe=One-Click</code> — both required by
+        Google's bulk-sender rules. The route is public and HMAC-signed:
+      </p>
+      <div class="flow">/cold_email/unsubscribe/&lt;contact_id&gt;/&lt;token&gt;     <span class="bad">403 on a forged token</span>
+  → mail.blacklist._add(email)     <span class="hl">← GLOBAL, every future campaign</span>
+  → enrollments still running      → unsubscribed
+  → their pending cold.mail rows   → cancelled</div>
+      <p>
+        An enrollment that already reached <code>done</code> keeps that state. The unsubscribe stops
+        what is running; it does not rewrite the history of a sequence that already finished. The
+        address is suppressed either way.
+      </p>
+      <div class="states">
+        <span class="pill">pending</span>
+        <span class="pill live">running</span>
+        <span class="pill done">replied</span>
+        <span class="pill stop">bounced</span>
+        <span class="pill stop">unsubscribed</span>
+        <span class="pill done">done</span>
+        <span class="pill">cancelled</span>
+      </div>
+    </section>
+
+    <section id="errors">
+      <h2><span class="sec-num">—</span> Error handling</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Condition</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><code>401</code></td><td>Refresh the token and replay the request <strong>once</strong></td></tr>
+            <tr><td><code>429</code>, <code>403 rateLimitExceeded</code>, <code>5xx</code></td><td>Transient — retry in 2<sup>n</sup> minutes, capped at 120, give up after 5</td></tr>
+            <tr><td><code>403 domainPolicy</code> / <code>failedPrecondition</code></td><td><strong>Mailbox</strong> problem — stop this mailbox's batch, queue untouched, <code>state = error</code></td></tr>
+            <tr><td>OAuth <code>invalid_grant</code></td><td>Authorisation revoked or expired — <code>state = expired</code>, queue untouched</td></tr>
+            <tr><td>OAuth <code>invalid_client</code></td><td>Bad Client ID/Secret — <code>state = error</code>, queue untouched</td></tr>
+            <tr><td>Any other 4xx</td><td>This message is bad — <code>state = failed</code> with the error text</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note good">
+        <span class="tag">A mailbox failure never fails the messages</span>
+        <p>
+          A settings typo would otherwise burn an entire campaign and hammer Google's token endpoint
+          once per queued email. Broken mailboxes are skipped with their queue intact and the reason
+          recorded on the mailbox; healthy mailboxes in the same cron run keep sending.
+        </p>
+      </div>
+      <p>
+        One implementation note for anyone editing this code: the savepoint's rollback calls
+        <code>cr.clear()</code>, so <em>anything written inside it is discarded</em>. That is why
+        mailbox diagnostics are returned to the caller and written outside the savepoint — writing
+        them in place looks correct and silently loses them.
+      </p>
+    </section>
+
+    <section id="security">
+      <h2><span class="sec-num">—</span> Security</h2>
+      <ul class="prose">
+        <li>OAuth credentials — <code>refresh_token</code>, <code>access_token</code>,
+            <code>access_token_expiration</code>, <code>pkce_verifier</code> — live on
+            <code>groups="base.group_system"</code> fields and appear in no view. A Cold Email User
+            genuinely cannot read them, even for their own mailbox; all sending goes through
+            <code>sudo()</code>.</li>
+        <li>The API client redacts the <code>Authorization</code> header before any debug logging.
+            Tokens are never written to the log.</li>
+        <li>The OAuth callback verifies an HMAC-signed <code>state</code>; a forged one gets a 403.
+            PKCE (S256) is used on the code exchange.</li>
+        <li>Record rules scope mailboxes and campaigns to their owner, and enrollments and emails to
+            their campaign. Managers see the whole company. The cold list itself is shared across the
+            group — it is team property.</li>
+        <li><code>_get_unsubscribe_token</code> and <code>_get_access_token</code> are private and
+            unreachable over RPC.</li>
+      </ul>
+    </section>
+
+    <section id="compliance">
+      <h2><span class="sec-num">—</span> Compliance</h2>
+      <p>
+        <code>gmail.send</code> is a <strong>sensitive</strong> scope;
+        <code>gmail.readonly</code> is a <strong>restricted</strong> one.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Deployment</th><th>What Google requires</th></tr></thead>
+          <tbody>
+            <tr><td>Internal Workspace app</td><td>Nothing. No review.</td></tr>
+            <tr><td>Public / multi-customer product</td><td>OAuth verification <strong>and</strong> a third-party CASA security assessment for the restricted scope.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Budget for the assessment early rather than treating it as a launch-day task. If you later
+        want the module to label threads inside Gmail, swap <code>gmail.readonly</code> for
+        <code>gmail.modify</code> — same restricted tier, so no extra review burden.
+      </p>
+      <p>
+        Keep the caps honest. Gmail's sending limits are a separate ceiling from API quota, and
+        rotating mailboxes to get around them violates Google's terms.
+      </p>
+    </section>
+
+    <section id="trouble">
+      <h2><span class="sec-num">—</span> Troubleshooting</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symptom</th><th>Cause and fix</th></tr></thead>
+          <tbody>
+            <tr><td>“Gmail API credentials are missing”</td><td>Client ID/Secret not set in Settings → Cold Email</td></tr>
+            <tr><td>Google shows <code>redirect_uri_mismatch</code></td><td>The URI in the Cloud console must match the one on the Settings page exactly — scheme, host and port</td></tr>
+            <tr><td>Mailbox expires after a week</td><td>Consent screen is in <em>Testing</em>. Expected. Publish it, or use an <em>Internal</em> app</td></tr>
+            <tr><td>“Google rejected the Client ID or Client Secret”</td><td>Wrong credentials, or they belong to a different Cloud project</td></tr>
+            <tr><td>“Google did not return a refresh token”</td><td>Access was already granted. Remove the app at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a> and reconnect</td></tr>
+            <tr><td>Everything stays <em>Scheduled</em></td><td>Outside the window, daily limit reached, campaign not running, or the mailbox is in <code>error</code>/<code>expired</code> — read <code>last_error</code> on the mailbox</td></tr>
+            <tr><td>Follow-ups arrive as separate conversations</td><td>The step's mode is <code>new_thread</code>, or the previous step's Message-ID could not be read back — check the log</td></tr>
+            <tr><td>Replies not detected</td><td><code>reply_sync_enabled</code> is off, the reply is older than 7 days, or it never reached the INBOX label</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        While testing, run the crons by hand from
+        <strong>Settings → Technical → Scheduled Actions</strong> rather than waiting for the beat.
+      </p>
+    </section>
+
+    <section id="tests">
+      <h2><span class="sec-num">—</span> Tests and layout</h2>
+      <pre><code>./odoo-bin -c &lt;conf&gt; -d &lt;db&gt; -i cold_email_gmail \
+  --test-tags /cold_email_gmail --stop-after-init</code></pre>
+      <p>
+        59 tests. The Gmail transport is swapped for a fake in <code>tests/common.py</code> — and the
+        fake still resolves a token through <code>_get_access_token</code>, so the OAuth path stays in
+        the loop. Without that detail the suite silently skips token refresh and expiry handling
+        entirely, and a whole class of bug walks straight through it.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>File</th><th>Covers</th></tr></thead>
+          <tbody>
+            <tr><td><code>test_mailbox.py</code></td><td>Token reuse, refresh, expiry; CSRF state; PKCE; scopes</td></tr>
+            <tr><td><code>test_sending.py</code></td><td>Queue, limits, window, pacing, retries, mailbox-level failures</td></tr>
+            <tr><td><code>test_threading.py</code></td><td>New thread vs. reply, chain advance, Message-ID read-back</td></tr>
+            <tr><td><code>test_replies.py</code></td><td>Reply detection, bounces, blacklisting, GC</td></tr>
+            <tr><td><code>test_unsubscribe.py</code></td><td>Token signing, global suppression</td></tr>
+            <tr><td><code>test_security.py</code></td><td>Record rules, token invisibility</td></tr>
+            <tr><td><code>test_controllers.py</code></td><td>Public routes over real HTTP</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flow">cold_email_gmail/
+├── tools/
+│   ├── oauth.py         auth URL, PKCE, code exchange, refresh, revoke
+│   ├── gmail_api.py     the REST client — every HTTPS call lives here
+│   └── mime.py          RFC 5322 builder, base64url, threading headers
+├── models/              mailbox · contact · campaign · sequence · enrollment · mail
+├── controllers/main.py  OAuth callback + public unsubscribe
+├── wizard/              enroll wizard
+├── data/                three crons
+├── security/            groups, ACLs, record rules
+└── views/</div>
+      <p>
+        Transport is isolated in <code>tools/</code> so the models stay free of request plumbing and
+        the tests can swap the whole client for a fake.
+      </p>
+    </section>
+
+    <section id="limits">
+      <h2><span class="sec-num">—</span> Limitations</h2>
+      <p><strong>Not included in v1:</strong> open/click tracking, A/B testing, Pub/Sub push
+        notifications (the 15-minute poll is sufficient at this scale), an analytics dashboard beyond
+        the campaign counters, multi-company record rules (<code>company_id</code> is already on the
+        models, so the rules are a one-file addition), and automatic lead creation on reply. There is
+        also no <code>crm.lead</code> link — a Many2one to it would make <code>crm</code> a hard
+        dependency of the whole module; a bridge module can add it.</p>
+      <div class="note warn">
+        <span class="tag">Delivery is at-least-once, not exactly-once</span>
+        <p>
+          Between “Gmail accepted the message” and “we recorded it” there is a window of a few ORM
+          writes. If one failed, the savepoint would roll back and the next cron run would re-send.
+          The risky <code>messages.get</code> call is already guarded, so the remaining window is very
+          small — but closing it completely means committing mid-savepoint, which is a larger
+          structural change than this module warrants.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      cold_email_gmail · Odoo 19 Community · LGPL-3<br>
+      Independently built against Google's public Gmail API documentation.
+      Not affiliated with Google, and it shares no code with Odoo's google_gmail addon.
+    </footer>
+  </main>
+</div>

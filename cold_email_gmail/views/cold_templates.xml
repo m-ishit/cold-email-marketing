@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Deliberately self-contained: no t-call to web.frontend_layout. That
+         template's session-info script calls ir.http.get_frontend_session_info(),
+         which the `website` module overrides to unconditionally read
+         request.website, unset here, since this is a plain website=False
+         controller, not a website page. The crash only shows up when
+         `website` happens to be installed, so it's easy to miss in a dev
+         instance that doesn't have it. A tiny confirmation page doesn't need
+         the frontend chrome anyway. -->
+
+    <!-- Shown when Google refuses, or when the user cancels the consent screen. -->
+    <template id="oauth_error" name="Cold Email: Gmail connection failed">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <title>Could not connect the mailbox</title>
+                <style>
+                    body { font-family: -apple-system, sans-serif; background: #f8f9fa; margin: 0; }
+                    .container { max-width: 640px; margin: 64px auto; padding: 0 16px; }
+                    .alert { background: #fff3cd; border: 1px solid #ffe69c; border-radius: 6px; padding: 12px 16px; color: #664d03; }
+                    .btn { display: inline-block; margin-top: 16px; padding: 8px 20px; background: #714B67; color: #fff; text-decoration: none; border-radius: 6px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h2>Could not connect the mailbox</h2>
+                    <p class="alert"><t t-esc="error"/></p>
+                    <a t-att-href="redirect_url" class="btn">Back to the mailbox</a>
+                </div>
+            </body>
+        </html>
+    </template>
+
+</odoo>

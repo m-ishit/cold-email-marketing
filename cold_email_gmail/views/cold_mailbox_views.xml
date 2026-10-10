@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cold_mailbox_view_list" model="ir.ui.view">
+        <field name="name">cold.mailbox.list</field>
+        <field name="model">cold.mailbox</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state in ('expired', 'error')"
+                  decoration-muted="state in ('draft', 'disconnected')">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="sent_today" string="Sent today"/>
+                <field name="daily_limit"/>
+                <field name="last_reply_sync" string="Last Bounce Sync" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'connected'"
+                       decoration-danger="state in ('expired', 'error')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cold_mailbox_view_form" model="ir.ui.view">
+        <field name="name">cold.mailbox.form</field>
+        <field name="model">cold.mailbox</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_connect" type="object" string="Connect Gmail"
+                            class="btn-primary" invisible="state == 'connected'"/>
+                    <button name="action_connect" type="object" string="Reconnect"
+                            class="btn-warning" invisible="state != 'connected'"/>
+                    <button name="action_send_test_email" type="object" string="Send Test Email"
+                            invisible="state != 'connected'"/>
+                    <button name="action_disconnect" type="object" string="Disconnect"
+                            confirm="Revoke Odoo's access to this Gmail account?"
+                            invisible="state in ('draft', 'disconnected')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,connected"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Sales — Rishabh"/></h1>
+                        <h3><field name="email" placeholder="Filled in by Google once connected"/></h3>
+                    </div>
+
+                    <div class="alert alert-info" role="alert" invisible="is_credentials_set">
+                        Gmail API credentials are not configured yet. Open
+                        <b>Settings &gt; Cold Email</b> and paste the Client ID and Client Secret
+                        from your Google Cloud project.
+                    </div>
+
+                    <div class="alert alert-warning" role="alert" invisible="state != 'expired'">
+                        Google no longer accepts the stored authorisation. Click
+                        <b>Reconnect</b> to grant access again.
+                        <div class="text-muted">
+                            While your OAuth consent screen is in <i>Testing</i> mode, Google expires
+                            refresh tokens after 7 days. Publishing the app (or using an
+                            <i>Internal</i> Workspace app) removes that limit.
+                        </div>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert" invisible="not last_error">
+                        <field name="last_error" readonly="1" nolabel="1"/>
+                    </div>
+
+                    <group>
+                        <group string="Ownership">
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="is_credentials_set" invisible="1"/>
+                        </group>
+                        <group string="Sending Policy">
+                            <field name="daily_limit"/>
+                            <field name="min_delay_seconds"/>
+                            <label for="window_start" string="Sending Window"/>
+                            <div class="o_row">
+                                <field name="window_start" widget="float_time"/>
+                                <span class="mx-2">to</span>
+                                <field name="window_end" widget="float_time"/>
+                            </div>
+                            <field name="tz" widget="timezone_mismatch"
+                                   options="{'tz_offset_field': 'tz_offset'}"/>
+                            <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
+                        </group>
+                        <group string="Bounces">
+                            <field name="reply_sync_enabled" string="Detect Bounces"/>
+                            <field name="last_reply_sync" string="Last Bounce Sync" readonly="1"/>
+                        </group>
+                        <group string="Today">
+                            <field name="sent_today" readonly="1"/>
+                            <field name="last_send_at" readonly="1"/>
+                            <field name="debug_logging"/>
+                        </group>
+                    </group>
+
+                    <div class="text-muted mt-4">
+                        This mailbox sends through the Gmail REST API. No SMTP server, no password
+                        and no app-specific password is involved.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cold_mailbox_view_search" model="ir.ui.view">
+        <field name="name">cold.mailbox.search</field>
+        <field name="model">cold.mailbox</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="user_id"/>
+                <filter name="filter_connected" string="Connected"
+                        domain="[('state', '=', 'connected')]"/>
+                <filter name="filter_needs_attention" string="Needs Attention"
+                        domain="[('state', 'in', ('expired', 'error'))]"/>
+                <separator/>
+                <filter name="filter_mine" string="My Mailboxes"
+                        domain="[('user_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_user" string="Owner" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="cold_mailbox_action" model="ir.actions.act_window">
+        <field name="name">Mailboxes</field>
+        <field name="res_model">cold.mailbox</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Connect your first Gmail mailbox</p>
+            <p>
+                Cold Email sends through the Gmail API using OAuth, so you never store
+                a password. Create a mailbox, then click <b>Connect Gmail</b>.
+            </p>
+        </field>
+    </record>
+
+</odoo>
