@@ -23,6 +23,8 @@ gmail.googleapis.com.
     """,
     'author': 'STTL',
     'license': 'LGPL-3',
+    'price': 0.00,
+    'currency': 'USD',
     'depends': ['mail'],
     'data': [
         'security/cold_groups.xml',
