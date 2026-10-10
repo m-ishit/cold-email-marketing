@@ -23,7 +23,7 @@ gmail.googleapis.com.
     """,
     'author': 'Hirebeans',
     'license': 'OPL-1',
-    'price': 11.00,
+    'price': 50.00,
     'currency': 'USD',
     'depends': ['mail'],
     'data': [
