@@ -1,44 +1,38 @@
 <title>Cold Email for Gmail</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     Design plan
-     Color  — cool slate/ink neutrals (the blue-black of pen ink and
-              envelope security tint), one accent of oxidised copper
-              teal for structure and links, and two semantic hues held
-              in reserve strictly for traps and confirmations.
-              ink #10171E · slate #5A6B7A · paper #EEF1F3
-              copper #0E6E70 · crimson #A03A32 · moss #2C6B4F
-     Type   — monospace as the DISPLAY face, because email headers are
-              monospace and this is a document about headers; a serif
-              for running prose so argument and protocol never blur;
-              mono small-caps for labels.
-     Layout — a sticky index rail that separates the ordered setup path
-              from the unordered reference, against a 68ch measure. The
-              threading diagram is the one place the page raises its
-              voice: an actual rendered conversation with its headers.
+     Design plan — Hirebeans Cloud theme
+     Color  — navy #1B2B6B for structure and links, orange #F5A623 /
+              #F97316 as the accent, warm cream #F8F7F4 paper.
+              Dark mode swaps to deep navy #0A1442.
+     Type   — DM Serif Display for headings, Plus Jakarta Sans for
+              body, system monospace for code and labels.
+     Layout — a sticky index rail separating the ordered setup path
+              from the unordered reference, against a 68ch measure.
      ============================================================ */
 
   :root {
-    --ink:        #10171E;
-    --ink-soft:   #2B3944;
-    --slate:      #5A6B7A;
-    --slate-dim:  #8695A2;
-    --paper:      #EEF1F3;
-    --surface:    #F7F9FA;
-    --sunken:     #E4E9EC;
-    --rule:       #CBD5DB;
-    --rule-soft:  #DCE3E7;
-    --copper:     #0E6E70;
-    --copper-lift:#0A8C8F;
+    --ink:        #0F172A;
+    --ink-soft:   #334155;
+    --slate:      #475569;
+    --slate-dim:  #64748B;
+    --paper:      #F8F7F4;
+    --surface:    #FFFFFF;
+    --sunken:     #F1EFEA;
+    --rule:       #D9DEE7;
+    --rule-soft:  #E8EBF1;
+    --copper:     #1B2B6B;
+    --copper-lift:#F97316;
     --crimson:    #A03A32;
     --crimson-bg: #F6E7E5;
     --moss:       #2C6B4F;
     --moss-bg:    #E3EFE8;
-    --amber:      #8A6410;
-    --amber-bg:   #F6EEDC;
+    --amber:      #B85600;
+    --amber-bg:   #FDF1DF;
 
-    --display: ui-monospace, "SF Mono", "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
-    --body: ui-serif, Charter, "Iowan Old Style", Georgia, Cambria, serif;
+    --display: "DM Serif Display", Georgia, "Times New Roman", serif;
+    --body: "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
 
     --measure: 68ch;
@@ -52,44 +46,44 @@
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --ink:        #E7EDF1;
-      --ink-soft:   #C3CFD8;
-      --slate:      #93A3AF;
-      --slate-dim:  #6B7C89;
-      --paper:      #0D1319;
-      --surface:    #131B22;
-      --sunken:     #1A242C;
-      --rule:       #2C3A45;
-      --rule-soft:  #212C35;
-      --copper:     #4FB3B2;
-      --copper-lift:#6FCFCB;
+      --ink:        #E8EDF8;
+      --ink-soft:   #CBD5E1;
+      --slate:      #94A3B8;
+      --slate-dim:  #7C8BA3;
+      --paper:      #0A1442;
+      --surface:    #0F1E50;
+      --sunken:     #152255;
+      --rule:       #2A3C7E;
+      --rule-soft:  #1E2E68;
+      --copper:     #9DB0F5;
+      --copper-lift:#F5A623;
       --crimson:    #E08078;
       --crimson-bg: #2B1A19;
       --moss:       #6FBE93;
       --moss-bg:    #14251D;
-      --amber:      #D6A950;
-      --amber-bg:   #26200F;
+      --amber:      #F5A623;
+      --amber-bg:   #2A2010;
     }
   }
 
   :root[data-theme="dark"] {
-    --ink:        #E7EDF1;
-    --ink-soft:   #C3CFD8;
-    --slate:      #93A3AF;
-    --slate-dim:  #6B7C89;
-    --paper:      #0D1319;
-    --surface:    #131B22;
-    --sunken:     #1A242C;
-    --rule:       #2C3A45;
-    --rule-soft:  #212C35;
-    --copper:     #4FB3B2;
-    --copper-lift:#6FCFCB;
+    --ink:        #E8EDF8;
+    --ink-soft:   #CBD5E1;
+    --slate:      #94A3B8;
+    --slate-dim:  #7C8BA3;
+    --paper:      #0A1442;
+    --surface:    #0F1E50;
+    --sunken:     #152255;
+    --rule:       #2A3C7E;
+    --rule-soft:  #1E2E68;
+    --copper:     #9DB0F5;
+    --copper-lift:#F5A623;
     --crimson:    #E08078;
     --crimson-bg: #2B1A19;
     --moss:       #6FBE93;
     --moss-bg:    #14251D;
-    --amber:      #D6A950;
-    --amber-bg:   #26200F;
+    --amber:      #F5A623;
+    --amber-bg:   #2A2010;
   }
 
   * { box-sizing: border-box; }
@@ -151,7 +145,7 @@
   /* ---------- masthead ---------- */
   main { padding-top: 3.5rem; min-width: 0; }
 
-  .masthead { border-bottom: 2px solid var(--ink); padding-bottom: 2rem; margin-bottom: 3rem; }
+  .masthead { border-bottom: 3px solid var(--copper-lift); padding-bottom: 2rem; margin-bottom: 3rem; }
   .eyebrow {
     font-family: var(--mono);
     font-size: 0.688rem;
@@ -163,8 +157,8 @@
   h1 {
     font-family: var(--display);
     font-size: var(--step-4);
-    font-weight: 600;
-    letter-spacing: -0.035em;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: 1.05;
     margin: 0 0 1rem;
     text-wrap: balance;
@@ -195,8 +189,8 @@
   h2 {
     font-family: var(--display);
     font-size: var(--step-2);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-weight: 400;
+    letter-spacing: 0;
     line-height: 1.2;
     margin: 0 0 1.25rem;
     padding-top: 0.9rem;
@@ -208,7 +202,7 @@
   }
   h2 .sec-num {
     font-size: 0.75rem;
-    color: var(--copper);
+    color: var(--amber);
     letter-spacing: 0.1em;
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
@@ -217,8 +211,9 @@
   h3 {
     font-family: var(--display);
     font-size: var(--step-0);
-    font-weight: 600;
-    letter-spacing: -0.005em;
+    font-weight: 700;
+    letter-spacing: 0;
+    font-family: var(--body);
     margin: 2.25rem 0 0.8rem;
     color: var(--ink);
   }
@@ -418,7 +413,25 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
+
+  /* ---------- Hirebeans brand bar ---------- */
+  .brandbar {
+    background: linear-gradient(135deg, #060D2A 0%, #0F1E50 55%, #1B2B6B 130%);
+    border-bottom: 3px solid #F5A623;
+    padding: 1rem 2rem;
+  }
+  .brandbar-in { max-width: 78rem; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .brandbar img { height: 30px; display: block; }
+  .brandbar a.site { color: #F5A623; font-weight: 700; font-size: 0.875rem; text-decoration: none; }
+  .brandbar span { color: #CBD5E1; font-size: 0.875rem; }
 </style>
+
+<header class="brandbar">
+  <div class="brandbar-in">
+    <img src="hirebeans-logo.svg" alt="Hirebeans Cloud"/>
+    <span>Cold Email (Gmail API) &middot; Documentation &nbsp;<a class="site" href="https://hirebeans.cloud">hirebeans.cloud &rarr;</a></span>
+  </div>
+</header>
 
 <div class="shell">
 
@@ -1015,7 +1028,7 @@ state = connected</div>
     </section>
 
     <footer>
-      cold_email_gmail · Odoo 19 Community · OPL-1<br>
+      cold_email_gmail · Odoo 19 Community · OPL-1 · by <a href="https://hirebeans.cloud">Hirebeans Cloud</a><br>
       Independently built against Google's public Gmail API documentation.
       Not affiliated with Google, and it shares no code with Odoo's google_gmail addon.
     </footer>

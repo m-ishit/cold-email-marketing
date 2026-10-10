@@ -21,9 +21,10 @@ Nothing in this module uses SMTP: no ir.mail_server, no mail.mail, no
 fetchmail.server. Every Gmail operation is an HTTPS call to
 gmail.googleapis.com.
     """,
-    'author': 'Hirebeans',
+    'author': 'Hirebeans Cloud',
+    'website': 'https://hirebeans.cloud',
     'license': 'OPL-1',
-    'price': 50.00,
+    'price': 25.00,
     'currency': 'USD',
     'depends': ['mail'],
     'data': [
@@ -44,7 +45,6 @@ gmail.googleapis.com.
         'python': ['requests'],
     },
     'images': [
-        'static/description/card.png',
         'static/description/main_screenshot.png',
     ],
     'installable': True,
