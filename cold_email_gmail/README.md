@@ -8,7 +8,7 @@ over its REST API**. No SMTP anywhere: no `ir.mail_server`, no `mail.mail`, no
 - **Depends on:** `mail` only
 - **Python:** `requests` (no `google-api-python-client`, no `google-auth`)
 - **Scopes:** `gmail.send`, `gmail.readonly`
-- **License:** LGPL-3
+- **License:** OPL-1
 
 ---
 

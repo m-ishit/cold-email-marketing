@@ -22,7 +22,7 @@ fetchmail.server. Every Gmail operation is an HTTPS call to
 gmail.googleapis.com.
     """,
     'author': 'Hirebeans',
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
     'price': 11.00,
     'currency': 'USD',
     'depends': ['mail'],
