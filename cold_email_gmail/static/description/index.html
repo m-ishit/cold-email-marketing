@@ -1,80 +1,65 @@
-<section style="font-family:'Plus Jakarta Sans',-apple-system,'Segoe UI',Roboto,sans-serif; color:#0F172A; background:#F8F7F4;">
+<section style="font-family:'Plus Jakarta Sans',-apple-system,'Segoe UI',Roboto,sans-serif; color:#0F172A; max-width:960px; margin:0 auto; padding:24px 16px;">
 
-  <!-- Hero -->
-  <div style="background:linear-gradient(135deg,#060D2A 0%,#0F1E50 55%,#1B2B6B 130%); color:#fff; padding:40px 24px 64px;">
-    <div style="max-width:1000px; margin:0 auto;">
-      <img src="hirebeans-logo.svg" alt="Hirebeans Cloud" style="height:38px; display:block; margin-bottom:48px;"/>
-      <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:center;">
-        <div style="flex:1 1 420px;">
-          <span style="display:inline-block; font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#F5A623; border:1px solid rgba(245,166,35,.55); padding:6px 14px; border-radius:999px;">Odoo 19 &middot; Email Marketing</span>
-          <h1 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:3.4rem; line-height:1.05; margin:20px 0 16px; color:#fff;">
-            Cold Email,<br/><span style="color:#F5A623;">sent through Gmail API</span>
-          </h1>
-          <p style="font-size:1.2rem; line-height:1.55; color:#CBD5E1; margin:0 0 28px; max-width:520px;">
-            Schedule one-off emails inside Odoo and deliver them over Gmail REST. No SMTP server, no stored passwords, no deliverability guesswork.
-          </p>
-          <span style="display:inline-block; background:#F5A623; color:#0A1442; font-weight:800; font-size:1.2rem; padding:12px 28px; border-radius:999px;">25 USD</span>
-          <span style="display:inline-block; margin-left:12px; color:#CBD5E1; font-size:.95rem;">one-time purchase &middot; Odoo 19</span>
-        </div>
-        <div style="flex:1 1 340px;">
-          <img src="banner.png" alt="Cold Email (Gmail API) preview" style="width:100%; height:auto; border-radius:16px; box-shadow:0 24px 48px rgba(0,0,0,.45); display:block;"/>
-        </div>
-      </div>
+  <!-- Hero: dark text on white only. The Apps store strips background styles. -->
+  <div style="border-bottom:3px solid #F5A623; padding-bottom:32px;">
+    <img src="hirebeans-logo-dark.svg" alt="Hirebeans Cloud" style="height:34px; display:block; margin:0 0 28px;"/>
+    <div style="display:inline-block; vertical-align:middle; box-sizing:border-box; width:46%; padding-right:20px;">
+      <span style="display:inline-block; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#B85600; border:1px solid #F5A623; padding:5px 12px; border-radius:999px;">Odoo 19 &middot; Email Marketing</span>
+      <h1 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:2.8rem; line-height:1.08; margin:16px 0 12px; color:#1B2B6B;">Cold Email, <span style="color:#E8650A;">sent through Gmail API</span></h1>
+      <p style="font-size:1.1rem; line-height:1.55; color:#475569; margin:0 0 20px;">Schedule one-off emails inside Odoo and deliver them over Gmail REST. No SMTP server, no stored passwords.</p>
+      <span style="display:inline-block; border:2px solid #1B2B6B; color:#1B2B6B; font-weight:800; font-size:1.1rem; padding:8px 22px; border-radius:999px;">25 USD</span>
+      <span style="color:#64748B; font-size:.9rem; margin-left:8px;">one-time purchase</span>
+    </div><div style="display:inline-block; vertical-align:middle; box-sizing:border-box; width:53%;">
+      <img src="banner.png" alt="Cold Email (Gmail API) preview" style="width:100%; height:auto; border-radius:14px; display:block;"/>
     </div>
   </div>
 
   <!-- Stats -->
-  <div style="max-width:1000px; margin:-32px auto 0; padding:0 24px;">
-    <div style="display:flex; flex-wrap:wrap; background:#fff; border-radius:16px; box-shadow:0 12px 32px rgba(15,23,42,.12); overflow:hidden;">
-      <div style="flex:1 1 200px; padding:22px; text-align:center; border-right:1px solid #E2E8F0;"><div style="font-size:1.8rem; font-weight:800; color:#1B2B6B;">0</div><div style="color:#475569; font-size:.95rem;">SMTP servers needed</div></div>
-      <div style="flex:1 1 200px; padding:22px; text-align:center; border-right:1px solid #E2E8F0;"><div style="font-size:1.8rem; font-weight:800; color:#1B2B6B;">OAuth 2.0</div><div style="color:#475569; font-size:.95rem;">no passwords stored</div></div>
-      <div style="flex:1 1 200px; padding:22px; text-align:center; border-right:1px solid #E2E8F0;"><div style="font-size:1.8rem; font-weight:800; color:#1B2B6B;">1 per user</div><div style="color:#475569; font-size:.95rem;">connected mailbox</div></div>
-      <div style="flex:1 1 200px; padding:22px; text-align:center;"><div style="font-size:1.8rem; font-weight:800; color:#1B2B6B;">Auto</div><div style="color:#475569; font-size:.95rem;">cron-based sending</div></div>
-    </div>
+  <div style="margin:28px 0 8px; border-top:1px solid #D9DEE7; border-bottom:1px solid #D9DEE7;">
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24.5%; padding:18px 8px; text-align:center;"><div style="font-size:1.5rem; font-weight:800; color:#1B2B6B;">0</div><div style="color:#475569; font-size:.9rem;">SMTP servers needed</div></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24.5%; padding:18px 8px; text-align:center;"><div style="font-size:1.5rem; font-weight:800; color:#1B2B6B;">OAuth 2.0</div><div style="color:#475569; font-size:.9rem;">no passwords stored</div></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24.5%; padding:18px 8px; text-align:center;"><div style="font-size:1.5rem; font-weight:800; color:#1B2B6B;">1 per user</div><div style="color:#475569; font-size:.9rem;">connected mailbox</div></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24.5%; padding:18px 8px; text-align:center;"><div style="font-size:1.5rem; font-weight:800; color:#1B2B6B;">Auto</div><div style="color:#475569; font-size:.9rem;">cron-based sending</div></div>
   </div>
 
   <!-- Features -->
-  <div style="max-width:1000px; margin:0 auto; padding:64px 24px 24px;">
-    <h2 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:2.3rem; text-align:center; color:#1B2B6B; margin:0 0 8px;">Everything you need to reach out</h2>
-    <p style="text-align:center; color:#475569; margin:0 0 36px;">Built for Odoo teams that send personal outreach, not newsletters.</p>
-    <div style="display:flex; flex-wrap:wrap; gap:18px;">
-      <div style="flex:1 1 290px; background:#fff; border:1px solid #E2E8F0; border-top:4px solid #F5A623; border-radius:12px; padding:22px;">
-        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.15rem;">Google OAuth 2.0</h3>
-        <p style="margin:0; color:#475569; line-height:1.55;">Connect one Gmail mailbox per user. Every operation is an HTTPS call to gmail.googleapis.com.</p></div>
-      <div style="flex:1 1 290px; background:#fff; border:1px solid #E2E8F0; border-top:4px solid #F5A623; border-radius:12px; padding:22px;">
-        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.15rem;">Compose and personalise</h3>
-        <p style="margin:0; color:#475569; line-height:1.55;">HTML body, tags and saved templates. Type <code>/</code> to insert the recipient's name or company.</p></div>
-      <div style="flex:1 1 290px; background:#fff; border:1px solid #E2E8F0; border-top:4px solid #F5A623; border-radius:12px; padding:22px;">
-        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.15rem;">Schedule and send</h3>
-        <p style="margin:0; color:#475569; line-height:1.55;">Pick the send time. A cron delivers what is due, with a daily limit, pacing and sending window per mailbox.</p></div>
-      <div style="flex:1 1 290px; background:#fff; border:1px solid #E2E8F0; border-top:4px solid #F5A623; border-radius:12px; padding:22px;">
-        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.15rem;">Bounce detection</h3>
-        <p style="margin:0; color:#475569; line-height:1.55;">Bounced messages are detected and marked, so you can clean the list.</p></div>
-      <div style="flex:1 1 290px; background:#fff; border:1px solid #E2E8F0; border-top:4px solid #F5A623; border-radius:12px; padding:22px;">
-        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.15rem;">Chatter follow-ups</h3>
-        <p style="margin:0; color:#475569; line-height:1.55;">Discuss, log notes and schedule activities on each email, right inside Odoo.</p></div>
-      <div style="flex:1 1 290px; background:#fff; border:1px solid #E2E8F0; border-top:4px solid #F5A623; border-radius:12px; padding:22px;">
-        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.15rem;">Secure by design</h3>
-        <p style="margin:0; color:#475569; line-height:1.55;">Per-user access groups and record rules. Each person sees only their own mailbox and emails.</p></div>
-    </div>
+  <div style="padding:40px 0 10px;">
+    <h2 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:2.1rem; text-align:center; color:#1B2B6B; margin:0 0 6px;">Everything you need to reach out</h2>
+    <p style="text-align:center; color:#475569; margin:0 0 28px;">Built for Odoo teams that send personal outreach, not newsletters.</p>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:30.5%; margin:0 1% 14px; border:1px solid #D9DEE7; border-top:4px solid #F5A623; border-radius:12px; padding:20px;">
+        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.1rem;">Google OAuth 2.0</h3>
+        <p style="margin:0; color:#475569; line-height:1.55; font-size:.95rem;">Connect one Gmail mailbox per user. Every operation is an HTTPS call to gmail.googleapis.com.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:30.5%; margin:0 1% 14px; border:1px solid #D9DEE7; border-top:4px solid #F5A623; border-radius:12px; padding:20px;">
+        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.1rem;">Compose and personalise</h3>
+        <p style="margin:0; color:#475569; line-height:1.55; font-size:.95rem;">HTML body, tags and saved templates. Type <code>/</code> to insert the recipient's name or company.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:30.5%; margin:0 1% 14px; border:1px solid #D9DEE7; border-top:4px solid #F5A623; border-radius:12px; padding:20px;">
+        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.1rem;">Schedule and send</h3>
+        <p style="margin:0; color:#475569; line-height:1.55; font-size:.95rem;">Pick the send time. A cron delivers what is due, with a daily limit, pacing and sending window per mailbox.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:30.5%; margin:0 1% 14px; border:1px solid #D9DEE7; border-top:4px solid #F5A623; border-radius:12px; padding:20px;">
+        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.1rem;">Bounce detection</h3>
+        <p style="margin:0; color:#475569; line-height:1.55; font-size:.95rem;">Bounced messages are detected and marked, and later emails to that address are skipped.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:30.5%; margin:0 1% 14px; border:1px solid #D9DEE7; border-top:4px solid #F5A623; border-radius:12px; padding:20px;">
+        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.1rem;">Chatter follow-ups</h3>
+        <p style="margin:0; color:#475569; line-height:1.55; font-size:.95rem;">Discuss, log notes and schedule activities on each email, right inside Odoo.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:30.5%; margin:0 1% 14px; border:1px solid #D9DEE7; border-top:4px solid #F5A623; border-radius:12px; padding:20px;">
+        <h3 style="margin:0 0 8px; color:#1B2B6B; font-size:1.1rem;">Secure by design</h3>
+        <p style="margin:0; color:#475569; line-height:1.55; font-size:.95rem;">Per-user access groups and record rules. Each person sees only their own mailbox and emails.</p></div>
   </div>
 
   <!-- How it works -->
-  <div style="max-width:1000px; margin:0 auto; padding:40px 24px;">
-    <h2 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:2.3rem; text-align:center; color:#1B2B6B; margin:0 0 32px;">How it works</h2>
-    <div style="display:flex; flex-wrap:wrap; gap:18px;">
-      <div style="flex:1 1 200px; text-align:center;"><div style="width:48px; height:48px; line-height:48px; margin:0 auto 10px; border-radius:50%; background:#1B2B6B; color:#fff; font-weight:800;">1</div><b style="color:#1B2B6B;">Connect</b><p style="margin:6px 0 0; color:#475569;">Sign in with Google once.</p></div>
-      <div style="flex:1 1 200px; text-align:center;"><div style="width:48px; height:48px; line-height:48px; margin:0 auto 10px; border-radius:50%; background:#1B2B6B; color:#fff; font-weight:800;">2</div><b style="color:#1B2B6B;">Compose</b><p style="margin:6px 0 0; color:#475569;">Write or pick a template.</p></div>
-      <div style="flex:1 1 200px; text-align:center;"><div style="width:48px; height:48px; line-height:48px; margin:0 auto 10px; border-radius:50%; background:#1B2B6B; color:#fff; font-weight:800;">3</div><b style="color:#1B2B6B;">Schedule</b><p style="margin:6px 0 0; color:#475569;">Choose when it goes out.</p></div>
-      <div style="flex:1 1 200px; text-align:center;"><div style="width:48px; height:48px; line-height:48px; margin:0 auto 10px; border-radius:50%; background:#F5A623; color:#0A1442; font-weight:800;">4</div><b style="color:#1B2B6B;">Track</b><p style="margin:6px 0 0; color:#475569;">See sent, bounced, follow up.</p></div>
-    </div>
+  <div style="padding:30px 0 10px;">
+    <h2 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:2.1rem; text-align:center; color:#1B2B6B; margin:0 0 24px;">How it works</h2>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24%; text-align:center; padding:0 6px;"><div style="width:44px; height:44px; line-height:40px; margin:0 auto 10px; border:2px solid #1B2B6B; border-radius:50%; color:#1B2B6B; font-weight:800;">1</div><b style="color:#1B2B6B;">Connect</b><p style="margin:6px 0 0; color:#475569; font-size:.95rem;">Sign in with Google once.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24%; text-align:center; padding:0 6px;"><div style="width:44px; height:44px; line-height:40px; margin:0 auto 10px; border:2px solid #1B2B6B; border-radius:50%; color:#1B2B6B; font-weight:800;">2</div><b style="color:#1B2B6B;">Compose</b><p style="margin:6px 0 0; color:#475569; font-size:.95rem;">Write or pick a template.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24%; text-align:center; padding:0 6px;"><div style="width:44px; height:44px; line-height:40px; margin:0 auto 10px; border:2px solid #1B2B6B; border-radius:50%; color:#1B2B6B; font-weight:800;">3</div><b style="color:#1B2B6B;">Schedule</b><p style="margin:6px 0 0; color:#475569; font-size:.95rem;">Choose when it goes out.</p></div>
+      <div style="display:inline-block; vertical-align:top; box-sizing:border-box; width:24%; text-align:center; padding:0 6px;"><div style="width:44px; height:44px; line-height:40px; margin:0 auto 10px; border:2px solid #F5A623; border-radius:50%; color:#1B2B6B; font-weight:800;">4</div><b style="color:#1B2B6B;">Track</b><p style="margin:6px 0 0; color:#475569; font-size:.95rem;">See sent and bounced, then follow up.</p></div>
   </div>
 
   <!-- CTA -->
-  <div style="background:linear-gradient(135deg,#0F1E50,#1B2B6B); color:#fff; text-align:center; padding:56px 24px;">
-    <h2 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:2.2rem; margin:0 0 10px; color:#fff;">Need help with setup or customisation?</h2>
-    <p style="color:#CBD5E1; margin:0 0 24px;">Hirebeans Cloud is your Odoo implementation, migration and support partner.</p>
-    <a href="https://hirebeans.cloud" style="display:inline-block; background:#F5A623; color:#0A1442; font-weight:800; padding:14px 32px; border-radius:999px; text-decoration:none;">Visit hirebeans.cloud</a>
-    <p style="margin:24px 0 0; font-size:.9rem; color:#94A3B8;">Licensed under OPL-1 &middot; <a href="docs.html" style="color:#F5A623;">Read the documentation</a></p>
+  <div style="margin-top:36px; border:2px solid #1B2B6B; border-radius:14px; padding:28px 20px; text-align:center;">
+    <h2 style="font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:1.7rem; margin:0 0 8px; color:#1B2B6B;">Need help with setup or customisation?</h2>
+    <p style="color:#475569; margin:0 0 16px;">Hirebeans Cloud is your Odoo implementation, migration and support partner.</p>
+    <a href="https://hirebeans.cloud" style="display:inline-block; border:2px solid #E8650A; color:#B85600; font-weight:800; padding:10px 28px; border-radius:999px; text-decoration:none;">Visit hirebeans.cloud</a>
+    <p style="margin:18px 0 0; font-size:.85rem; color:#64748B;">Licensed under OPL-1</p>
   </div>
 </section>
