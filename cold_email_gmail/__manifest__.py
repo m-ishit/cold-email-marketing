@@ -43,6 +43,10 @@ gmail.googleapis.com.
     'external_dependencies': {
         'python': ['requests'],
     },
+    'images': [
+        'static/description/card.png',
+        'static/description/main_screenshot.png',
+    ],
     'installable': True,
     'application': True,
 }
