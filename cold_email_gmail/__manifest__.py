@@ -21,7 +21,7 @@ Nothing in this module uses SMTP: no ir.mail_server, no mail.mail, no
 fetchmail.server. Every Gmail operation is an HTTPS call to
 gmail.googleapis.com.
     """,
-    'author': 'STTL',
+    'author': 'Hirebeans',
     'license': 'LGPL-3',
     'price': 0.00,
     'currency': 'USD',
